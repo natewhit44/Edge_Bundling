@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Confluent Graphs</a>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="row" style="margin-bottom: 16px">
+            <div class="col-md-6">
+                <h4>Select data set</h4>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="dataset" id="dataset_opt1" value="social" checked="">
+                        Social network
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="dataset" id="dataset_opt2" value="something">
+                        Something else
+                    </label>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h4>Select graph type</h4>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="graphtype" id="graphtype_opt1" value="normal" checked="">
+                        Normal
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="graphtype" id="graphtype_opt2" value="confluent">
+                        Confluent
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" style="margin-bottom: 16px">
+            <button onclick="showGraph()" class="btn btn-default btn-lg btn-block">Display</button>
+        </div>
+
+        <div class="row">
+            TODO: Show graph
+        </div>
+    </div>
+</body>
+
+<link rel="stylesheet" href="/static/main.css">
+<link rel="stylesheet" href="http://bootswatch.com/paper/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="/static/main.js"></script>
+
+</html>
