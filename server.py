@@ -1,4 +1,6 @@
 from flask import Flask, request, make_response, jsonify, send_file, send_from_directory
+import data_parser
+
 app = Flask(__name__, static_url_path="/static")
 
 # Always return minified JSON
@@ -18,15 +20,14 @@ def root():
 @app.route("/api/graph", methods=["GET"])
 def graph():
     dataset = request.args.get("dataset")
-    graphtype = request.args.get("graphtype")
 
-    if dataset is None or dataset not in ["social", "other"]:
+    if dataset is None or dataset not in ["flight"]:
         return make_response(jsonify({"error": "Invalid dataset."})), 400
 
-    if graphtype is None or graphtype not in ["normal", "confluent"]:
-        return make_response(jsonify({"error": "Invalid graph type."})), 400
+    #print dataset
+    parsed = data_parser.parse(dataset)
 
-    return "TODO"
+    return make_response(jsonify(parsed)), 200
 
 if __name__ == "__main__":
     app.run()
