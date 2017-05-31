@@ -1,9 +1,11 @@
-function initGraph(error, graph) {
+function initGraph(error, graph, graphtype) {
     if (error) {
         throw error;
     }
 
-    var min_x = Number.MAX_VALUE;
+    document.getElementById("svg").innerHTML = "";
+
+    var min_x = Number.MAX_VALUE;//
     var max_x = 0;
     var min_y = Number.MAX_VALUE;
     var max_y = 0;
@@ -16,50 +18,61 @@ function initGraph(error, graph) {
         max_y = Math.max(max_y, node.y);
     }
 
-    var new_scale_x = d3.scaleLinear().domain([min_x, max_x]).range([900, 50]);
-    var new_scale_y = d3.scaleLinear().domain([min_y, max_y]).range([460, 50]);
+    var new_scale_x = d3.scaleLinear().domain([min_x, max_x]).range([700, 50]);
+    var new_scale_y = d3.scaleLinear().domain([min_y, max_y]).range([580, 50]);
 
     for (var i = 0; i < graph.node_data.length; i++) {
         graph.node_data[i].x = new_scale_x(graph.node_data[i].x);
         graph.node_data[i].y = new_scale_y(graph.node_data[i].y);
     }
 
-    // Run the FDEB algorithm using default values on the data
-    var fbundling = d3.ForceEdgeBundling().nodes(graph.node_data).edges(graph.edge_data);
-    var results = fbundling();
+    // TODO: graphtype => normal = no edge bundling, bundled = edge bundling
 
-    var svg = d3.select("#svg").append("svg")
-        .attr("width", 720)
-        .attr("height", 600);
+    switch(graphtype){
+        case 'normal':
+            alert("TODO")
+            break;
+        case 'bundled':
+            // Run the FDEB algorithm using default values on the data
+            var fbundling = d3.ForceEdgeBundling().nodes(graph.node_data).edges(graph.edge_data);
+            var results = fbundling();
 
-    svg = svg.append('g');
-    svg.append('rect').attr({ 'fill': '#111155', 'width': 1000, 'height': 600 });
-    svg.attr('transform', 'translate(20, 20)');
+            var svg = d3.select("#svg").append("svg")
+                .attr("width", 720)
+                .attr("height", 600);
+
+            svg = svg.append('g');
+            svg.append('rect').attr({ 'fill': '#111155', 'width': 720, 'height': 600 });
+            svg.attr('transform', 'translate(20, 20)');
 
 
-    var d3line = d3.line()
-        .x(function (d) { return d.x; })
-        .y(function (d) { return d.y; });
-        //.interpolate("linear");
+            var d3line = d3.line()
+                .x(function (d) { return d.x; })
+                .y(function (d) { return d.y; })
+                .curve(d3.curveLinear);
 
-    //plot the data
-    for (var i = 0; i < results.length; i++) {
-        svg.append("path").attr("d", d3line(results[i]))
-            .style("stroke-width", 0.5)
-            .style("stroke", "#ff2222")
-            .style("fill", "none")
-            .style('stroke-opacity', 0.15);
+            // plot the data
+            for (var i = 0; i < results.length; i++) {
+                svg.append("path").attr("d", d3line(results[i]))
+                    .style("stroke-width", 0.5)
+                    .style("stroke", "#ff2222")
+                    .style("fill", "none")
+                    .style('stroke-opacity', 0.15);
+            }
+
+            // draw nodes
+            svg.selectAll('.node')
+                .data(d3.entries(graph.node_data))
+                .enter()
+                .append('circle')
+                .classed('node', true);
+                //.attr({ 'r': 2, 'fill': '#ffee00' })
+                //.attr('cx', function (d) { return d.value.x; })
+                //.attr('cy', function (d) { return d.value.y; });
+            break;
+        default:
+            console.error('Bad graph type: ' + graphtype);
     }
-
-    //draw nodes
-    svg.selectAll('.node')
-        .data(d3.entries(graph.node_data))
-        .enter()
-        .append('circle')
-        .classed('node', true)
-        .attr({ 'r': 2, 'fill': '#ffee00' })
-        .attr('cx', function (d) { return d.value.x; })
-        .attr('cy', function (d) { return d.value.y; });
 }
 
 /* --- onclick functions --- */
@@ -78,7 +91,7 @@ function populateGraph() {
         },
         success: function (res) {
             console.log(res);
-            initGraph(null, res);
+            initGraph(null, res, graphtype);
         },
         error: function (e) {
             console.error(e);

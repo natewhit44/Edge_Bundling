@@ -57,7 +57,7 @@ def parse_flight_data():
         x = coordinates[1]
         y = coordinates[0]
 
-        nodes[str(node)] = {"x": float(x), "y": float(y)}
+        nodes[str(node)] = {"x": float(x) * 8, "y": float(y) * 8}
 
     # Edges
     edges = []
