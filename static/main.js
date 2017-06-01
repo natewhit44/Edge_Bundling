@@ -1,4 +1,12 @@
-function initGraph(error, graph, graphtype) {
+// Simple cache to store bundled edge data
+var graphCache = {
+    flight: {
+        normal: null,
+        bundled: null
+    }
+}
+
+function initGraph(error, graph, dataset, graphtype) {
     if (error) {
         throw error;
     }
@@ -45,25 +53,35 @@ function initGraph(error, graph, graphtype) {
 
     switch(graphtype){
         case 'normal':
-            // Run the FDEB algorithm using default values on the data
-            var fbundling = d3.ForceEdgeBundling()
-                .nodes(graph.node_data)
-                .edges(graph.edge_data)
-                .step_size(0.0) // set step size low to effectively disable edge bundling
-                .compatibility_threshold(1.0); // set threshold high to effectively disable edge bundling
+            // If cache empty, compute
+            if(!graphCache[dataset][graphtype]){
+                // Run the FDEB algorithm using default values on the data
+                var fbundling = d3.ForceEdgeBundling()
+                    .nodes(graph.node_data)
+                    .edges(graph.edge_data)
+                    .step_size(0.0) // set step size low to effectively disable edge bundling
+                    .compatibility_threshold(1.0); // set threshold high to effectively disable edge bundling
 
-            var results = fbundling();
+                var results = fbundling();
+
+                graphCache[dataset][graphtype] = results; // store results
+            }
 
             break;
         case 'bundled':
-            // Run the FDEB algorithm using default values on the data
-            var fbundling = d3.ForceEdgeBundling()
-                .nodes(graph.node_data)
-                .edges(graph.edge_data)
-                .step_size(0.2)
-                .compatibility_threshold(0.4);
+            // If cache empty, compute
+            if(!graphCache[dataset][graphtype]){
+                // Run the FDEB algorithm using default values on the data
+                var fbundling = d3.ForceEdgeBundling()
+                    .nodes(graph.node_data)
+                    .edges(graph.edge_data)
+                    .step_size(0.2)
+                    .compatibility_threshold(0.4);
 
-            var results = fbundling();
+                var results = fbundling();
+
+                graphCache[dataset][graphtype] = results; // store results
+            }
 
             break;
         default:
@@ -71,8 +89,8 @@ function initGraph(error, graph, graphtype) {
     }
 
     // plot the data
-    for (var i = 0; i < results.length; i++) {
-        svg.append("path").attr("d", d3line(results[i]))
+    for (var i = 0; i < graphCache[dataset][graphtype].length; i++) {
+        svg.append("path").attr("d", d3line(graphCache[dataset][graphtype][i]))
             .style("stroke-width", 0.5)
             .style("stroke", "#ff2222")
             .style("fill", "none")
@@ -106,7 +124,7 @@ function populateGraph() {
         },
         success: function (res) {
             console.log(res);
-            initGraph(null, res, graphtype);
+            initGraph(null, res, dataset, graphtype);
         },
         error: function (e) {
             console.error(e);
