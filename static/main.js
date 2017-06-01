@@ -49,7 +49,8 @@ function initGraph(error, graph, graphtype) {
             var fbundling = d3.ForceEdgeBundling()
                 .nodes(graph.node_data)
                 .edges(graph.edge_data)
-                .compatibility_threshold(1.0);
+                .step_size(0.0) // set step size low to effectively disable edge bundling
+                .compatibility_threshold(1.0); // set threshold high to effectively disable edge bundling
 
             var results = fbundling();
 
@@ -58,7 +59,10 @@ function initGraph(error, graph, graphtype) {
             // Run the FDEB algorithm using default values on the data
             var fbundling = d3.ForceEdgeBundling()
                 .nodes(graph.node_data)
-                .edges(graph.edge_data);
+                .edges(graph.edge_data)
+                .step_size(0.2)
+                .compatibility_threshold(0.4);
+
             var results = fbundling();
 
             break;
