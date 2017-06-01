@@ -39,7 +39,7 @@
                 <div class="radio">
                     <label>
                         <input type="radio" name="graphtype" id="graphtype_opt1" value="normal" checked="">
-                        Normal (TODO)
+                        Normal
                     </label>
                 </div>
                 <div class="radio">
@@ -55,8 +55,13 @@
             <button onclick="populateGraph()" class="btn btn-default btn-lg btn-block">Display</button>
         </div>
 
-        <div class="row" style="background-color: #212121">
-            <div id="svg">
+        <!--<div class="row" style="background-color: #212121">-->
+        <div class="row">
+            <div id="graph-panel" class="panel panel-default" style="display: none;">
+                <div class="panel-body">
+                    <div id="svg">
+                    </div>
+                </div>
             </div>
         </div>
     </div>

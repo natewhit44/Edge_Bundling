@@ -3,6 +3,10 @@ function initGraph(error, graph, graphtype) {
         throw error;
     }
 
+    // Unhide graph panel
+    document.getElementById("graph-panel").setAttribute("style", "display: block;");
+
+    // Clear graph
     document.getElementById("svg").innerHTML = "";
 
     var min_x = Number.MAX_VALUE;//
@@ -26,53 +30,60 @@ function initGraph(error, graph, graphtype) {
         graph.node_data[i].y = new_scale_y(graph.node_data[i].y);
     }
 
-    // TODO: graphtype => normal = no edge bundling, bundled = edge bundling
+    var svg = d3.select("#svg").append("svg")
+        .attr("width", 720)
+        .attr("height", 600);
+
+    svg = svg.append('g');
+    svg.append('rect').attr({ 'fill': '#111155', 'width': 720, 'height': 600 });
+    svg.attr('transform', 'translate(20, 20)');
+
+    var d3line = d3.line()
+        .x(function (d) { return d.x; })
+        .y(function (d) { return d.y; })
+        .curve(d3.curveLinear);
 
     switch(graphtype){
         case 'normal':
-            alert("TODO")
+            // Run the FDEB algorithm using default values on the data
+            var fbundling = d3.ForceEdgeBundling()
+                .nodes(graph.node_data)
+                .edges(graph.edge_data)
+                .compatibility_threshold(1.0);
+
+            var results = fbundling();
+
             break;
         case 'bundled':
             // Run the FDEB algorithm using default values on the data
-            var fbundling = d3.ForceEdgeBundling().nodes(graph.node_data).edges(graph.edge_data);
+            var fbundling = d3.ForceEdgeBundling()
+                .nodes(graph.node_data)
+                .edges(graph.edge_data);
             var results = fbundling();
 
-            var svg = d3.select("#svg").append("svg")
-                .attr("width", 720)
-                .attr("height", 600);
-
-            svg = svg.append('g');
-            svg.append('rect').attr({ 'fill': '#111155', 'width': 720, 'height': 600 });
-            svg.attr('transform', 'translate(20, 20)');
-
-
-            var d3line = d3.line()
-                .x(function (d) { return d.x; })
-                .y(function (d) { return d.y; })
-                .curve(d3.curveLinear);
-
-            // plot the data
-            for (var i = 0; i < results.length; i++) {
-                svg.append("path").attr("d", d3line(results[i]))
-                    .style("stroke-width", 0.5)
-                    .style("stroke", "#ff2222")
-                    .style("fill", "none")
-                    .style('stroke-opacity', 0.15);
-            }
-
-            // draw nodes
-            svg.selectAll('.node')
-                .data(d3.entries(graph.node_data))
-                .enter()
-                .append('circle')
-                .classed('node', true);
-                //.attr({ 'r': 2, 'fill': '#ffee00' })
-                //.attr('cx', function (d) { return d.value.x; })
-                //.attr('cy', function (d) { return d.value.y; });
             break;
         default:
             console.error('Bad graph type: ' + graphtype);
     }
+
+    // plot the data
+    for (var i = 0; i < results.length; i++) {
+        svg.append("path").attr("d", d3line(results[i]))
+            .style("stroke-width", 0.5)
+            .style("stroke", "#ff2222")
+            .style("fill", "none")
+            .style('stroke-opacity', 0.15);
+    }
+
+    // draw nodes
+    svg.selectAll('.node')
+        .data(d3.entries(graph.node_data))
+        .enter()
+        .append('circle')
+        .classed('node', true);
+        //.attr({ 'r': 2, 'fill': '#ffee00' })
+        //.attr('cx', function (d) { return d.value.x; })
+        //.attr('cy', function (d) { return d.value.y; });
 }
 
 /* --- onclick functions --- */
