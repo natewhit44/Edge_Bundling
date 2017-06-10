@@ -1,3 +1,14 @@
+// Nate's additions
+$( document ).ready(function() {
+    console.log( "ready!" );
+	
+	function updateVal(val, name) {
+		console.log(val);
+		console.log(name);
+        document.getElementById(name).value=val; 
+	}
+});
+
 // Simple cache to store bundled edge data
 var graphCache = {
     flight: {
@@ -5,6 +16,7 @@ var graphCache = {
         bundled: null
     }
 }
+
 
 function initGraph(error, graph, dataset, graphtype) {
     if (error) {
@@ -30,8 +42,8 @@ function initGraph(error, graph, dataset, graphtype) {
         max_y = Math.max(max_y, node.y);
     }
 
-    var new_scale_x = d3.scaleLinear().domain([min_x, max_x]).range([700, 50]);
-    var new_scale_y = d3.scaleLinear().domain([min_y, max_y]).range([580, 50]);
+    var new_scale_x = d3.scaleLinear().domain([min_x, max_x]).range([1160, 0]);
+    var new_scale_y = d3.scaleLinear().domain([min_y, max_y]).range([720, 0]);
 
     for (var i = 0; i < graph.node_data.length; i++) {
         graph.node_data[i].x = new_scale_x(graph.node_data[i].x);
@@ -39,11 +51,11 @@ function initGraph(error, graph, dataset, graphtype) {
     }
 
     var svg = d3.select("#svg").append("svg")
-        .attr("width", 720)
-        .attr("height", 600);
+        .attr("width", 1160)
+        .attr("height", 720);
 
     svg = svg.append('g');
-    svg.append('rect').attr({ 'fill': '#111155', 'width': 720, 'height': 600 });
+    svg.append('rect').attr({ 'fill': '#111155', 'width': 1160, 'height': 720 });
     svg.attr('transform', 'translate(20, 20)');
 
     var d3line = d3.line()
@@ -60,7 +72,7 @@ function initGraph(error, graph, dataset, graphtype) {
                     .nodes(graph.node_data)
                     .edges(graph.edge_data)
                     .step_size(0.0) // set step size low to effectively disable edge bundling
-                    .compatibility_threshold(1.0); // set threshold high to effectively disable edge bundling
+                    .compatibility_threshold(0.6); // [0,1] set threshold high to effectively disable edge bundling
 
                 var results = fbundling();
 
@@ -75,8 +87,8 @@ function initGraph(error, graph, dataset, graphtype) {
                 var fbundling = d3.ForceEdgeBundling()
                     .nodes(graph.node_data)
                     .edges(graph.edge_data)
-                    .step_size(0.2)
-                    .compatibility_threshold(0.4);
+                    .step_size(0.0)
+                    .compatibility_threshold(0.6);
 
                 var results = fbundling();
 
@@ -91,10 +103,10 @@ function initGraph(error, graph, dataset, graphtype) {
     // plot the data
     for (var i = 0; i < graphCache[dataset][graphtype].length; i++) {
         svg.append("path").attr("d", d3line(graphCache[dataset][graphtype][i]))
-            .style("stroke-width", 0.5)
+            .style("stroke-width", 0.2)
             .style("stroke", "#ff2222")
             .style("fill", "none")
-            .style('stroke-opacity', 0.15);
+            .style('stroke-opacity', 0.80);
     }
 
     // draw nodes
@@ -103,7 +115,7 @@ function initGraph(error, graph, dataset, graphtype) {
         .enter()
         .append('circle')
         .classed('node', true);
-        //.attr({ 'r': 2, 'fill': '#ffee00' })
+        //.attr({ 'r': 30, 'fill': '#ffee00' })
         //.attr('cx', function (d) { return d.value.x; })
         //.attr('cy', function (d) { return d.value.y; });
 }

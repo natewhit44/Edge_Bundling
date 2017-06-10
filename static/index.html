@@ -7,6 +7,13 @@
     <title></title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+	<script>
+	function updateVal(val, name) {
+		console.log(val);
+		console.log(name);
+        document.getElementById(name).value=val; 
+	}
+	</script>
 </head>
 
 <body>
@@ -15,6 +22,7 @@
             <div class="navbar-header">
                 <a class="navbar-brand" href="#">Confluent Graphs</a>
             </div>
+        </div>
         </div>
     </nav>
     <div class="container">
@@ -54,9 +62,36 @@
         <div class="row" style="margin-bottom: 16px">
             <button onclick="populateGraph()" class="btn btn-default btn-lg btn-block">Display</button>
         </div>
-
+		
         <!--<div class="row" style="background-color: #212121">-->
         <div class="row">
+			<!-- Nate's Experimental Div -->
+			<div class="col-md-4 col-md-pull-4" style="height: 715px; float: left;  width: 376px">
+				<form>
+				<h4>User Controls:</h4>
+				<p>Step Size:</p>
+				<div id="slider">
+					<input type="range" min="0.0" max="1.0" step="0.1" value="0.0" onchange="updateVal(this.value,'stepSize');" style="width:225px; float:left;">
+					<input type="text" id="stepSize" value="0.0" style="width:24px; position:relative; bottom:5px; left:5px;">
+				</div>
+				<p>Compatability Threshold:</p>
+				<div id="slider">
+					<input type="range" min="0.0" max="1.0" step="0.1" onchange="updateVal(this.value,'compatThresh');"  value="0.0" style="width:225px; float:left;">
+					<input type="text" id="compatThresh" value="0.0" style="width:24px; position:relative; bottom:5px; left:5px;">
+				</div>
+				<p>Stroke Size:</p>
+				<div id="slider">
+					<input type="range" min="0.0" max="2.0" step="0.1" onchange="updateVal(this.value,'strokeSize');"  value="0.4" style="width:225px; float:left;">
+					<input type="text" id="strokeSize" value="0.4" style="width:24px; position:relative; bottom:5px; left:5px;">
+				</div>
+				<p>Node Size:</p>
+				<div id="slider">
+					<input type="range" min="0.0" max="2.0" step="0.1" onchange="updateVal(this.value,'nodeSize');"  value="0.8" style="width:225px; float:left;">
+					<input type="text" id="nodeSize" value="0.8" style="width:24px; position:relative; bottom:5px; left:5px;">
+				</div>
+				<input type="submit" value="submit">
+				</form>
+			</div>
             <div id="graph-panel" class="panel panel-default" style="display: none;">
                 <div class="panel-body">
                     <div id="svg">
@@ -75,5 +110,7 @@
 <script src="https://d3js.org/d3-selection-multi.v1.min.js"></script>
 <script type="text/javascript" src="static/d3-ForceEdgeBundling.js"></script>
 <script src="/static/main.js"></script>
+<!-- <script type="text/javascript" src="static/bootstrap-slider.js"></script> -->
+<!-- <script rel="stylesheet" href="/static/css/bootstrap-slider.css"></script> -->
 
 </html>

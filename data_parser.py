@@ -8,7 +8,7 @@
 def parse_flight_data():
     parsed = {}
 
-    csvfile = open("data2.csv", "r")
+    csvfile = open("data_file_500_points.csv", "r")
     csvdata = csvfile.readlines()
 
     xy_map = {} # Map number to unique x,y coordinates (nodes)
