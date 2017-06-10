@@ -1,10 +1,9 @@
 // Nate's additions
-$( document ).ready(function() {
+$(document).ready(function() {
     console.log( "ready!" );
 	
+	// Updates the value to the right of the slider
 	function updateVal(val, name) {
-		console.log(val);
-		console.log(name);
         document.getElementById(name).value=val; 
 	}
 });
@@ -87,8 +86,8 @@ function initGraph(error, graph, dataset, graphtype) {
                 var fbundling = d3.ForceEdgeBundling()
                     .nodes(graph.node_data)
                     .edges(graph.edge_data)
-                    .step_size(0.0)
-                    .compatibility_threshold(0.6);
+                    .step_size(0.3)
+                    .compatibility_threshold(0.4);
 
                 var results = fbundling();
 
