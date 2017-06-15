@@ -49,13 +49,13 @@
 				</div>
 				<p>Stroke Size:</p>
 				<div>
-					<input class="slider" type="range" min="0.0" max="2.0" step="0.1" onchange="updateVal(this.value,'strokeSize')" value="0.4">
-					<input class="slideDisplay" type="text" id="strokeSize" value="0.4">
+					<input id="stroke-size" class="slider" type="range" min="0.0" max="5.0" step="0.1" onchange="updateVal(this.value,'strokeSize')" value="0.5">
+					<input class="slideDisplay" type="text" id="strokeSize" value="0.5">
 				</div>
 				<p>Node Size:</p>
 				<div>
-					<input class="slider" type="range" min="0.0" max="2.0" step="0.1" onchange="updateVal(this.value,'nodeSize')" value="0.8">
-					<input class="slideDisplay" type="text" id="nodeSize" value="0.8">
+					<input id="node-size" class="slider" type="range" min="0.0" max="50.0" step="5.0" onchange="updateVal(this.value,'nodeSize')" value="30.0">
+					<input class="slideDisplay" type="text" id="nodeSize" value="30.0">
 				</div>
             </div>
         </div>

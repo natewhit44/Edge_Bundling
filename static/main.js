@@ -65,7 +65,7 @@ function initGraph(error, graph, options) {
     // plot the data
     for (var i = 0; i < results.length; i++) {
         svg.append("path").attr("d", d3line(results[i]))
-            .style("stroke-width", 0.2)
+            .style("stroke-width", options.strokeSize)
             .style("stroke", "#ff2222")
             .style("fill", "none")
             .style('stroke-opacity', 0.80);
@@ -76,10 +76,10 @@ function initGraph(error, graph, options) {
         .data(d3.entries(graph.node_data))
         .enter()
         .append('circle')
-        .classed('node', true);
-        //.attr({ 'r': 30, 'fill': '#ffee00' })
-        //.attr('cx', function (d) { return d.value.x; })
-        //.attr('cy', function (d) { return d.value.y; });
+        .classed('node', true)
+        .attr({ 'r': 200, 'fill': '#000' })
+        .attr('cx', function (d) { return d.value.x; })
+        .attr('cy', function (d) { return d.value.y; });
 }
 
 /* --- onclick functions --- */
@@ -88,7 +88,9 @@ function populateGraph() {
     var dataset = $("input[name=dataset]:checked").val();
     var options = {
         stepSize: document.getElementById("step-size").value,
-        compatThreshold: document.getElementById("compat-threshold").value
+        compatThreshold: document.getElementById("compat-threshold").value,
+        strokeSize: document.getElementById("stroke-size").value,
+        nodeSize: document.getElementById
     };        
 
     console.log(JSON.stringify({ dataset: dataset, options: options }));
