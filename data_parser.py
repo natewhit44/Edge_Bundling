@@ -5,10 +5,10 @@
 # data.csv parser (Flight Data)
 ################################################################################
 
-def parse_flight_data():
+def parse_data(fname):
     parsed = {}
 
-    csvfile = open("data_file_500_points.csv", "r")
+    csvfile = open(fname, "r")
     csvdata = csvfile.readlines()
 
     xy_map = {} # Map number to unique x,y coordinates (nodes)
@@ -75,7 +75,7 @@ def parse_flight_data():
 ################################################################################
 
 def parse(name):
-    if name == "flight":
-        return parse_flight_data()
+    if name in ["flight", "test"]:
+        return parse_data(name)
     else:
         return None

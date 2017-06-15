@@ -1,12 +1,11 @@
 // Nate's additions
-$(document).ready(function() {
-    console.log( "ready!" );
-	
-	// Updates the value to the right of the slider
-	function updateVal(val, name) {
-        document.getElementById(name).value=val; 
-	}
-});
+
+// Updates the value to the right of the slider
+function updateVal(val, name) {
+    console.log(val, name);
+    document.getElementById(name).value=val; 
+}
+
 
 // Simple cache to store bundled edge data
 var graphCache = {
