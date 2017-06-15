@@ -75,7 +75,7 @@ def parse_data(fname):
 ################################################################################
 
 def parse(name):
-    if name in ["flight", "test"]:
+    if name in ["data_file_500_points.csv", "data2.csv"]:
         return parse_data(name)
     else:
         return None

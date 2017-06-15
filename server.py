@@ -21,10 +21,11 @@ def root():
 def graph():
     dataset = request.args.get("dataset")
 
-    if dataset is None or dataset not in ["flight"]:
+    print dataset
+
+    if dataset is None or dataset not in ["data_file_500_points.csv", "data2.csv"]:
         return make_response(jsonify({"error": "Invalid dataset."})), 400
 
-    #print dataset
     parsed = data_parser.parse(dataset)
 
     return make_response(jsonify(parsed)), 200

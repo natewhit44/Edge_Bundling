@@ -24,13 +24,13 @@
                 <h4>Select data set</h4>
                 <div class="radio">
                     <label>
-                        <input type="radio" name="dataset" id="dataset_opt1" value="flight" checked="">
+                        <input type="radio" name="dataset" id="dataset_opt1" value="data2.csv" checked="">
                         Flight data
                     </label>
                 </div>
                 <div class="radio">
                     <label>
-                        <input type="radio" name="dataset" id="dataset_opt2" value="test">
+                        <input type="radio" name="dataset" id="dataset_opt2" value="data_file_500_points.csv">
                         Test data
                     </label>
                 </div>
@@ -39,12 +39,12 @@
                 <h4>FDEB Parameters</h4>
                 <p>Step Size:</p>
 				<div>
-					<input class="slider" type="range" min="0.0" max="1.0" step="0.1" onchange="updateVal(this.value,'stepSize')" value="0.1">
+					<input id="step-size" class="slider" type="range" min="0.0" max="1.0" step="0.1" onchange="updateVal(this.value,'stepSize')" value="0.1">
 					<input class="slideDisplay" type="text" id="stepSize" value="0.1">
 				</div>
 				<p>Compatability Threshold:</p>
 				<div>
-					<input class="slider" type="range" min="0.0" max="1.0" step="0.1" onchange="updateVal(this.value,'compatThresh')" value="0.6">
+					<input id="compat-threshold" class="slider" type="range" min="0.0" max="1.0" step="0.1" onchange="updateVal(this.value,'compatThresh')" value="0.6">
 					<input class="slideDisplay" type="text" id="compatThresh" value="0.6">
 				</div>
 				<p>Stroke Size:</p>
@@ -62,6 +62,13 @@
 
         <div class="row" style="margin-bottom: 16px">
             <button onclick="populateGraph()" class="btn btn-default btn-lg btn-block">Display</button>
+        </div>
+
+        <div id="graph-panel" class="panel panel-default" style="display: none;">
+            <div class="panel-body">
+                <div id="svg">
+                </div>
+            </div>
         </div>
     </div>
 </body>
